@@ -1,312 +1,259 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#123b67">
-  <meta name="description" content="Kalkulator pengujian laboratorium QC">
-  <link rel="manifest" href="manifest.json">
-  <title>Lab Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123b67">
+<meta name="description" content="QC-CALC - Quality Control Laboratory Calculator">
+<link rel="manifest" href="manifest.json">
+<title>QC-CALC | Laboratory System</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background: #eef3f8;
-      color: #18314c;
-    }
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #eef3f8;
+  color: #18314c;
+}
 
-    .container {
-      max-width: 480px;
-      margin: auto;
-    }
+.container {
+  max-width: 650px;
+  margin: auto;
+}
 
-    header {
-      background: #123b67;
-      color: white;
-      padding: 22px;
-      border-radius: 14px;
-      margin-bottom: 18px;
-    }
+header {
+  background: #123b67;
+  color: white;
+  padding: 30px 24px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+}
 
-    header h1 {
-      margin: 0 0 7px;
-    }
+header h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      margin-bottom: 16px;
-      box-shadow: 0 3px 12px #00000010;
-    }
+header p {
+  margin: 0;
+  color: #d9e8f8;
+}
 
-    label {
-      display: block;
-      margin-top: 14px;
-      font-weight: bold;
-      font-size: 14px;
-    }
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px #0000000d;
+}
 
-    input {
-      width: 100%;
-      padding: 13px;
-      margin-top: 7px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 16px;
-    }
+.card h2 {
+  margin-top: 0;
+  color: #123b67;
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 18px;
-      border: 0;
-      border-radius: 9px;
-      background: #1769aa;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.subtitle {
+  color: #788797;
+  margin-bottom: 25px;
+}
 
-    .result {
-      background: #eaf3ff;
-      padding: 17px;
-      border-radius: 10px;
-      margin-top: 18px;
-      display: none;
-    }
+label {
+  display: block;
+  font-weight: bold;
+  margin: 18px 0 8px;
+}
 
-    .value {
-      font-size: 32px;
-      font-weight: bold;
-      margin: 8px 0;
-    }
+input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccd5df;
+  border-radius: 10px;
+  font-size: 17px;
+  outline: none;
+}
 
-    .status {
-      padding: 10px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+input:focus {
+  border-color: #2676b7;
+}
 
-    .pass {
-      background: #d9f8e5;
-      color: #126b39;
-    }
+button {
+  width: 100%;
+  padding: 17px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 10px;
+  background: #176caf;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .fail {
-      background: #ffe0e0;
-      color: #a51d1d;
-    }
+button:hover {
+  background: #12568c;
+}
 
-    .history-item {
-      padding: 12px 0;
-      border-bottom: 1px solid #ddd;
-      font-size: 14px;
-    }
+.result {
+  display: none;
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #edf5fc;
+}
 
-    .note {
-      font-size: 12px;
-      color: #667085;
-    }
-  </style>
+.result h3 {
+  margin-top: 0;
+}
+
+.value {
+  font-size: 34px;
+  font-weight: bold;
+  color: #176caf;
+}
+
+.status {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.pass {
+  background: #d9f5e4;
+  color: #176b37;
+}
+
+.fail {
+  background: #ffe0e0;
+  color: #a51d1d;
+}
+
+.warning {
+  background: #fff1cd;
+  color: #805800;
+}
+
+footer {
+  text-align: center;
+  color: #83909d;
+  font-size: 12px;
+  padding: 20px;
+}
+</style>
 </head>
 
 <body>
 <div class="container">
 
-  <header>
-    <h1>LAB CALCULATOR</h1>
-    <div>Quality Control Laboratory System</div>
-  </header>
+<header>
+  <h1>QC-CALC</h1>
+  <p>Quality Control Laboratory System</p>
+</header>
 
-  <div class="card">
-    <h2>FFA Calculator</h2>
-    <p class="note">
-      Free Fatty Acid Analysis
-    </p>
+<div class="card">
+  <h2>FFA Calculator</h2>
+  <p class="subtitle">Free Fatty Acid Analysis</p>
 
-    <label>Berat Sampel (gram)</label>
-    <input id="berat" type="number"
-      step="any" min="0" placeholder="Contoh: 7.8">
+  <label>Berat Sampel (gram)</label>
+  <input id="berat" type="number" step="any"
+    min="0.000001" placeholder="Contoh: 7.8">
 
-    <label>Volume Titrasi (mL)</label>
-    <input id="volume" type="number"
-      step="any" min="0" placeholder="Contoh: 0.25">
+  <label>Volume Titrasi (mL)</label>
+  <input id="volume" type="number" step="any"
+    min="0" placeholder="Contoh: 0.25">
 
-    <label>Normalitas KOH</label>
-    <input id="normalitas" type="number"
-      step="any" min="0" placeholder="Contoh: 0.1">
+  <label>Normalitas KOH</label>
+  <input id="normalitas" type="number" step="any"
+    min="0.000001" placeholder="Contoh: 0.1">
 
-    <label>Batas Maksimum FFA (%)</label>
-    <input id="standar" type="number"
-      step="any" min="0" placeholder="Masukkan standar SOP">
+  <label>Batas Maksimum FFA (%)</label>
+  <input id="standar" type="number" step="any"
+    min="0" placeholder="Masukkan standar SOP">
 
-    <button onclick="hitungFFA()">
-      HITUNG FFA
-    </button>
+  <button onclick="hitungFFA()">HITUNG FFA</button>
 
-    <div class="result" id="hasil">
-      <div>Hasil FFA:</div>
-      <div class="value" id="nilai">0%</div>
-      <div class="status" id="status"></div>
-      <p class="note" id="rumus"></p>
-    </div>
+  <div id="hasil" class="result" aria-live="polite">
+    <h3>Hasil Analisis FFA</h3>
+    <div id="nilai" class="value">0.0000%</div>
+    <div id="status" class="status"></div>
+    <p id="keterangan"></p>
   </div>
+</div>
 
-  <div class="card">
-    <h3>Riwayat Pengujian</h3>
-    <div id="riwayat">
-      Belum ada data.
-    </div>
-    <button onclick="hapusRiwayat()"
-      style="background:#a83232">
-      HAPUS RIWAYAT
-    </button>
-  </div>
-
-  <p class="note">
-    Lab Calculator | Versi 1.0
-  </p>
+<footer>
+  QC-CALC Laboratory System<br>
+  Hasil perhitungan harus diverifikasi dengan SOP laboratorium.
+</footer>
 
 </div>
 
 <script>
-  function angka(id) {
-    return Number(
-      document.getElementById(id).value
-    );
+function hitungFFA() {
+  const berat = Number(document.getElementById("berat").value);
+  const volume = Number(document.getElementById("volume").value);
+  const normalitas = Number(document.getElementById("normalitas").value);
+  const standarInput = document.getElementById("standar").value;
+
+  const hasil = document.getElementById("hasil");
+  const status = document.getElementById("status");
+  const nilai = document.getElementById("nilai");
+  const keterangan = document.getElementById("keterangan");
+
+  hasil.style.display = "block";
+  status.className = "status";
+
+  if (
+    document.getElementById("berat").value === "" ||
+    document.getElementById("volume").value === "" ||
+    document.getElementById("normalitas").value === "" ||
+    standarInput === "" ||
+    !Number.isFinite(berat) ||
+    !Number.isFinite(volume) ||
+    !Number.isFinite(normalitas) ||
+    !Number.isFinite(Number(standarInput)) ||
+    berat <= 0 || volume < 0 ||
+    normalitas <= 0 || Number(standarInput) < 0
+  ) {
+    nilai.textContent = "--";
+    status.classList.add("warning");
+    status.textContent = "DATA TIDAK VALID";
+    keterangan.textContent =
+      "Periksa kembali semua angka yang dimasukkan.";
+    return;
   }
 
-  function hitungFFA() {
-    const berat = angka("berat");
-    const volume = angka("volume");
-    const normalitas = angka("normalitas");
-    const standar = angka("standar");
+  const standar = Number(standarInput);
 
-    if (
-      !document.getElementById("berat").value ||
-      !document.getElementById("volume").value ||
-      !document.getElementById("normalitas").value ||
-      !document.getElementById("standar").value
-    ) {
-      alert("Lengkapi semua data terlebih dahulu!");
-      return;
-    }
+  // Faktor 25,6: asumsi metode berbasis asam palmitat.
+  const ffa = (volume * normalitas * 25.6) / berat;
 
-    if (
-      berat <= 0 ||
-      normalitas <= 0 ||
-      volume < 0 ||
-      standar <= 0
-    ) {
-      alert("Periksa kembali angka yang dimasukkan!");
-      return;
-    }
+  nilai.textContent = ffa.toFixed(4) + "%";
 
-    // Rumus FFA berdasarkan faktor 25,6
-    const ffa =
-      (volume * normalitas * 25.6) / berat;
-
-    const nilai = ffa.toFixed(4);
-
-    document.getElementById("hasil")
-      .style.display = "block";
-
-    document.getElementById("nilai")
-      .innerText = nilai + "%";
-
-    document.getElementById("rumus")
-      .innerText =
-      "FFA = (" + volume + " × " +
-      normalitas + " × 25,6) / " + berat;
-
-    const status = document.getElementById("status");
-
-    if (ffa <= standar) {
-      status.className = "status pass";
-      status.innerText =
-        "✓ MEMENUHI STANDAR";
-    } else {
-      status.className = "status fail";
-      status.innerText =
-        "⚠ TIDAK MEMENUHI STANDAR";
-    }
-
-    simpanRiwayat(nilai, standar);
+  if (ffa <= standar) {
+    status.classList.add("pass");
+    status.textContent = "MEMENUHI STANDAR";
+    keterangan.textContent =
+      "Hasil FFA berada dalam batas maksimum yang dimasukkan.";
+  } else {
+    status.classList.add("fail");
+    status.textContent = "TIDAK MEMENUHI STANDAR";
+    keterangan.textContent =
+      "PERINGATAN: Hasil FFA melebihi batas maksimum!";
   }
+}
+</script>
 
-  function simpanRiwayat(nilai, standar) {
-    let data = JSON.parse(
-      localStorage.getItem("riwayatFFA") || "[]"
-    );
-
-    data.unshift({
-      nilai: nilai,
-      standar: standar,
-      waktu: new Date().toLocaleString("id-ID")
-    });
-
-    localStorage.setItem(
-      "riwayatFFA",
-      JSON.stringify(data)
-    );
-
-    tampilRiwayat();
-  }
-
-  function tampilRiwayat() {
-    const data = JSON.parse(
-      localStorage.getItem("riwayatFFA") || "[]"
-    );
-
-    const area = document.getElementById("riwayat");
-
-    if (data.length === 0) {
-      area.innerText = "Belum ada data.";
-      return;
-    }
-
-    area.innerHTML = "";
-
-    data.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "history-item";
-
-      const waktu = document.createElement("div");
-      waktu.innerText = item.waktu;
-
-      const hasil = document.createElement("strong");
-      hasil.innerText = "FFA: " + item.nilai + "%";
-
-      const batas = document.createElement("div");
-      batas.innerText = "Batas: " + item.standar + "%";
-
-      div.append(waktu, hasil, batas);
-      area.appendChild(div);
-    });
-  }
-
-  function hapusRiwayat() {
-    if (confirm("Hapus seluruh riwayat FFA?")) {
-      localStorage.removeItem("riwayatFFA");
-      tampilRiwayat();
-    }
-  }
-
-  tampilRiwayat();
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js");
-    });
-  }
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js");
+  });
+}
 </script>
 
 </body>
