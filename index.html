@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b67">
+  <meta name="description" content="Kalkulator pengujian laboratorium QC">
+  <link rel="manifest" href="manifest.json">
+  <title>Lab Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #eef3f8;
+      color: #18314c;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: auto;
+    }
+
+    header {
+      background: #123b67;
+      color: white;
+      padding: 22px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    header h1 {
+      margin: 0 0 7px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px #00000010;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 9px;
+      background: #1769aa;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      background: #eaf3ff;
+      padding: 17px;
+      border-radius: 10px;
+      margin-top: 18px;
+      display: none;
+    }
+
+    .value {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .status {
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .pass {
+      background: #d9f8e5;
+      color: #126b39;
+    }
+
+    .fail {
+      background: #ffe0e0;
+      color: #a51d1d;
+    }
+
+    .history-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #667085;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <header>
+    <h1>LAB CALCULATOR</h1>
+    <div>Quality Control Laboratory System</div>
+  </header>
+
+  <div class="card">
+    <h2>FFA Calculator</h2>
+    <p class="note">
+      Free Fatty Acid Analysis
+    </p>
+
+    <label>Berat Sampel (gram)</label>
+    <input id="berat" type="number"
+      step="any" min="0" placeholder="Contoh: 7.8">
+
+    <label>Volume Titrasi (mL)</label>
+    <input id="volume" type="number"
+      step="any" min="0" placeholder="Contoh: 0.25">
+
+    <label>Normalitas KOH</label>
+    <input id="normalitas" type="number"
+      step="any" min="0" placeholder="Contoh: 0.1">
+
+    <label>Batas Maksimum FFA (%)</label>
+    <input id="standar" type="number"
+      step="any" min="0" placeholder="Masukkan standar SOP">
+
+    <button onclick="hitungFFA()">
+      HITUNG FFA
+    </button>
+
+    <div class="result" id="hasil">
+      <div>Hasil FFA:</div>
+      <div class="value" id="nilai">0%</div>
+      <div class="status" id="status"></div>
+      <p class="note" id="rumus"></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Riwayat Pengujian</h3>
+    <div id="riwayat">
+      Belum ada data.
+    </div>
+    <button onclick="hapusRiwayat()"
+      style="background:#a83232">
+      HAPUS RIWAYAT
+    </button>
+  </div>
+
+  <p class="note">
+    Lab Calculator | Versi 1.0
+  </p>
+
+</div>
+
+<script>
+  function angka(id) {
+    return Number(
+      document.getElementById(id).value
+    );
+  }
+
+  function hitungFFA() {
+    const berat = angka("berat");
+    const volume = angka("volume");
+    const normalitas = angka("normalitas");
+    const standar = angka("standar");
+
+    if (
+      !document.getElementById("berat").value ||
+      !document.getElementById("volume").value ||
+      !document.getElementById("normalitas").value ||
+      !document.getElementById("standar").value
+    ) {
+      alert("Lengkapi semua data terlebih dahulu!");
+      return;
+    }
+
+    if (
+      berat <= 0 ||
+      normalitas <= 0 ||
+      volume < 0 ||
+      standar <= 0
+    ) {
+      alert("Periksa kembali angka yang dimasukkan!");
+      return;
+    }
+
+    // Rumus FFA berdasarkan faktor 25,6
+    const ffa =
+      (volume * normalitas * 25.6) / berat;
+
+    const nilai = ffa.toFixed(4);
+
+    document.getElementById("hasil")
+      .style.display = "block";
+
+    document.getElementById("nilai")
+      .innerText = nilai + "%";
+
+    document.getElementById("rumus")
+      .innerText =
+      "FFA = (" + volume + " × " +
+      normalitas + " × 25,6) / " + berat;
+
+    const status = document.getElementById("status");
+
+    if (ffa <= standar) {
+      status.className = "status pass";
+      status.innerText =
+        "✓ MEMENUHI STANDAR";
+    } else {
+      status.className = "status fail";
+      status.innerText =
+        "⚠ TIDAK MEMENUHI STANDAR";
+    }
+
+    simpanRiwayat(nilai, standar);
+  }
+
+  function simpanRiwayat(nilai, standar) {
+    let data = JSON.parse(
+      localStorage.getItem("riwayatFFA") || "[]"
+    );
+
+    data.unshift({
+      nilai: nilai,
+      standar: standar,
+      waktu: new Date().toLocaleString("id-ID")
+    });
+
+    localStorage.setItem(
+      "riwayatFFA",
+      JSON.stringify(data)
+    );
+
+    tampilRiwayat();
+  }
+
+  function tampilRiwayat() {
+    const data = JSON.parse(
+      localStorage.getItem("riwayatFFA") || "[]"
+    );
+
+    const area = document.getElementById("riwayat");
+
+    if (data.length === 0) {
+      area.innerText = "Belum ada data.";
+      return;
+    }
+
+    area.innerHTML = "";
+
+    data.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "history-item";
+
+      const waktu = document.createElement("div");
+      waktu.innerText = item.waktu;
+
+      const hasil = document.createElement("strong");
+      hasil.innerText = "FFA: " + item.nilai + "%";
+
+      const batas = document.createElement("div");
+      batas.innerText = "Batas: " + item.standar + "%";
+
+      div.append(waktu, hasil, batas);
+      area.appendChild(div);
+    });
+  }
+
+  function hapusRiwayat() {
+    if (confirm("Hapus seluruh riwayat FFA?")) {
+      localStorage.removeItem("riwayatFFA");
+      tampilRiwayat();
+    }
+  }
+
+  tampilRiwayat();
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js");
+    });
+  }
+</script>
+
+</body>
+</html>
